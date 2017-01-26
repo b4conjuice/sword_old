@@ -23,7 +23,8 @@
 		search = search.split(':');
 		var bookch = search[0];
 		var verse = search[1];
-		$.get('http://localhost:8791/' + bookch + '/' + verse, function(data) {
+		var url = window.location.origin + '/' + bookch + '/' + verse;
+		$.get(url, function(data) {
 			callback(data);
 		})
 	};
@@ -35,7 +36,7 @@
 		    
 		    if (keyCode == 186) //; or : button
 		    	textMode = true;
-		    	
+
 			if (keyCode == 32 && textMode) { 
 				console.log('space');
 				e.preventDefault(); 
