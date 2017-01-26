@@ -8,24 +8,24 @@ var path = require('path');
 app.set('port', (process.env.PORT || 8791));
 
 // Add headers
-app.use(function (req, res, next) {
+// app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + app.get('port'));
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + app.get('port'));
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', true);
 
-    // Pass to next layer of middleware
-    next();
-});
+//     // Pass to next layer of middleware
+//     next();
+// });
 
 app.param('bookch', function(req, res, next, id) {
 	next();
@@ -59,14 +59,16 @@ app.get('/:bookch/:verse', function(req, res) {
 			var out = '';
 			var ref = $('.results .caption .lnk').text();
 			if (ref != '') {
-				text = $('.bibleCitation article p span')
-					.clone()    //clone the element
+				var text = '';
+				 $('.bibleCitation article p span').each(function() {
+				 	text += $(this).clone()    //clone the element
 				    .children() //select all the children
 				    .remove()   //remove all the children
 				    .end()	 //again go back to selected element
-					.text()
-					.trim();
-				out = text + ' (' + ref + ')';
+					.text();
+					text += ' ';
+				 });
+				out = text + '(' + ref + ')';
 				res.send(out);
 			}
 			else
