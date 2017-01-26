@@ -4,13 +4,14 @@ var request = require('request');
 var cheerio = require('cheerio');
 var app = express();
 var path = require('path');
-var port = 8791;
+
+app.set('port', (process.env.PORT || 8791));
 
 // Add headers
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + port);
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + app.get('port'));
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -75,6 +76,7 @@ app.get('/:bookch/:verse', function(req, res) {
 			console.log('error');
 	});
 });
-app.listen(port);
-console.log('magic happens on port ' + port);
+app.listen(app.get('port'), function() {
+	console.log('magic happens on port ' + app.get('port'));
+});
 exports = module.exports = app;
