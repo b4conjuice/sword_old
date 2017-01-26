@@ -48,13 +48,17 @@
 				e.preventDefault(); 
 				
 				var textbox = $(this);
-				console.log(textbox.val());
-				var words = textbox.val().split(' ');
+				//var words = textbox.val().split(/\s+/); // split on space and return
+				var lines = textbox.val().split('\n');
+				var lastLine = lines[lines.length -1];
+				var words = lastLine.split(' ');
 	            var lastWord = words[words.length - 1];
 	      		searchText(lastWord, function(text) {
 	      			if (text != 'not found') {
 		      			words[words.length - 1] = text;
-		      			var content = words.join(' ');
+		      			lastLine = words.join(' ');
+		      			lines[lines.length -1] = lastLine;
+		      			var content = lines.join('\n');
 		      			content += ' ';
 		      			textbox.val(content);
 	      			}
